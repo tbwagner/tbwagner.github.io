@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thomas Wagner - Software Developer & AI Specialist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s forwards;
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: 20px 20px 0 0;
+            margin-top: -20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        /* Education */
+        .education-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .education-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .school-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .location {
+            color: #666;
+            font-style: italic;
+        }
+
+        .degree {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .coursework {
+            color: #666;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+        }
+
+        .skill-category h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Experience */
+        .experience-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .experience-item:hover {
+            transform: translateX(5px);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .company {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .date-location {
+            text-align: right;
+            color: #666;
+        }
+
+        .achievements {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .achievements li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+            color: #555;
+        }
+
+        .achievements li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border-top: 4px solid #764ba2;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Leadership */
+        .leadership-item {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .leadership-item:hover {
+            transform: scale(1.02);
+        }
+
+        .leadership-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .leadership-org {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .job-header, .education-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .date-location {
+                text-align: left;
+                margin-top: 0.5rem;
+            }
+
+            .section {
+                padding: 40px 0;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Section backgrounds */
+        .skills-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .projects-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">Thomas Wagner</div>
+            <ul class="nav-links">
+                <li><a href="#education">Education</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#leadership">Leadership</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="gradient-bg">
+        <div class="hero">
+            <div class="container">
+                <h1>Thomas Wagner</h1>
+                <p>Software Developer & AI Specialist</p>
+                <div class="contact-info">
+                    <div class="contact-item">📱 (714) 406-7191</div>
+                    <div class="contact-item">✉️ tbwagnerdev@gmail.com</div>
+                    <div class="contact-item">🔗 LinkedIn</div>
+                    <div class="contact-item">📍 Anaheim, CA</div>
+                </div>
+                <a href="#experience" class="cta-button">View My Work</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Education Section -->
+        <section id="education" class="section">
+            <div class="container">
+                <h2 class="section-title">Education</h2>
+                <div class="education-item">
+                    <div class="education-header">
+                        <div>
+                            <div class="school-name">Illinois Institute of Technology</div>
+                            <div class="degree">Master of Computer Science - Specialization in Artificial Intelligence</div>
+                            <div class="coursework"><strong>Relevant Coursework:</strong> Artificial Intelligence, Machine Learning, Computer Vision</div>
+                        </div>
+                        <div class="date-location">
+                            <div>August 2024 – May 2025</div>
+                            <div class="location">Chicago, IL</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="education-item">
+                    <div class="education-header">
+                        <div>
+                            <div class="school-name">Illinois Institute of Technology</div>
+                            <div class="degree">Bachelor of Science in Computer Science</div>
+                            <div class="coursework"><strong>Relevant Coursework:</strong> Data Structures and Algorithms, Systems Programming, Software Development</div>
+                        </div>
+                        <div class="date-location">
+                            <div>August 2021 – May 2024</div>
+                            <div class="location">Chicago, IL</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section skills-section">
+            <div class="container">
+                <h2 class="section-title">Technical Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Programming Languages</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">C</span>
+                            <span class="skill-tag">Java</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">PostgreSQL</span>
+                            <span class="skill-tag">Assembly</span>
+                            <span class="skill-tag">Haskell</span>
+                            <span class="skill-tag">JavaScript</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Web Development</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Express.js</span>
+                            <span class="skill-tag">MongoDB</span>
+                            <span class="skill-tag">Android Studio</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Tools & Technologies</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">AWS</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">Vite</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Project Management</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Kanban</span>
+                            <span class="skill-tag">Jira</span>
+                            <span class="skill-tag">Slack</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="section">
+            <div class="container">
+                <h2 class="section-title">Professional Experience</h2>
+                <div class="experience-item">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-title">Website Design Consultant</div>
+                            <div class="company">Christina & Kylie Interior Design</div>
+                        </div>
+                        <div class="date-location">
+                            <div>June 2024 – September 2024</div>
+                            <div class="location">Remote</div>
+                        </div>
+                    </div>
+                    <ul class="achievements">
+                        <li>Built a user-friendly website using <strong>React</strong> and <strong>Vite</strong> with property-specific branding and marketing</li>
+                        <li>Collaborated with TV hosts Christina Haack and Kylie Wing and obtained requirements for development of a custom website for 12 real estate properties</li>
+                        <li>Integrated <strong>Amazon Web Services (AWS)</strong> for hosting and deployment leveraging modern best practices</li>
+                        <li>Contributed to initial UI design and worked closely with designers to ensure high user engagement</li>
+                        <li>Portfolio available at: <strong>www.tbwagner.github.io</strong></li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-title">Customer Service Representative</div>
+                            <div class="company">Campitelli Cookies</div>
+                        </div>
+                        <div class="date-location">
+                            <div>June 2022 – January 2024 (Seasonal)</div>
+                            <div class="location">Anaheim, CA</div>
+                        </div>
+                    </div>
+                    <ul class="achievements">
+                        <li>Learned the value of good customer service by efficiently communicating with customers and coworkers</li>
+                        <li>Offered customers helpful suggestions to provide further satisfaction and increase sales</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section projects-section">
+            <div class="container">
+                <h2 class="section-title">Featured Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-title">Dish Thinker Website</div>
+                        <div class="project-description">
+                            Built a website that recommends meals based on user-input ingredients, supporting 20+ recipes and 6 dietary restrictions. Developed front-end UI using <strong>React</strong> and <strong>Vite</strong>, ensuring an intuitive layout for users to easily navigate. Tested website using <strong>Unit Tests</strong> across multiple browsers with mobile and desktop compatibility.
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">Machine Learning Model for Spam Email Filtering</div>
+                        <div class="project-description">
+                            Implemented and compared 10 machine learning algorithms, including <strong>Logistic Regression</strong>, <strong>Random Forest</strong>, and <strong>Naive Bayes</strong>. Achieved <strong>95% accuracy</strong> on spam detection using <strong>model ensembling</strong> and <strong>cross-validation</strong>. Designed a user interface to enable quick testing with statistical feedback for model performance.
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-title">AI Sudoku Solver</div>
+                        <div class="project-description">
+                            Developed an AI-driven solution to automatically solve Sudoku puzzles using various <strong>AI algorithms</strong>. This individual project demonstrates proficiency in artificial intelligence and problem-solving techniques.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leadership Section -->
+        <section id="leadership" class="section">
+            <div class="container">
+                <h2 class="section-title">Leadership & Volunteer Experience</h2>
+                <div class="leadership-item">
+                    <div class="leadership-title">Youth Summer Camp Volunteering</div>
+                    <div class="leadership-org">Higher Ground Orange County | May 2024 – August 2024</div>
+                </div>
+                <div class="leadership-item">
+                    <div class="leadership-title">Eagle Scout</div>
+                    <div class="leadership-org">Troop 850, Boy Scouts of America | August 2013 – March 2021</div>
+                </div>
+                <div class="leadership-item">
+                    <div class="leadership-title">Lead Programmer and Robot Designer</div>
+                    <div class="leadership-org">Team 363A, VEX Robotics | August 2013 – June 2020</div>
+                </div>
+                <div class="leadership-item">
+                    <div class="leadership-title">Cyber Patriot Competitor</div>
+                    <div class="leadership-org">Canyon High School, Air Force Association | August 2017 – June 2020</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(255, 255, 255, 0.98)';
+                nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        // Add intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections for animation
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(50px)';
+            section.style.transition = 'all 0.8s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
