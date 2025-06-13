@@ -20,7 +20,7 @@
 
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            min-height: 60vh; /* Reduced from 100vh */
         }
 
         .container {
@@ -72,20 +72,23 @@
 
         /* Hero Section */
         .hero {
-            padding: 120px 0 80px;
+            padding: 120px 0 60px; /* Reduced bottom padding from 80px to 60px */
             text-align: center;
             color: white;
+            display: flex;
+            align-items: center;
+            min-height: 60vh; /* Reduced from implicit 100vh */
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 3rem; /* Slightly reduced from 3.5rem */
             margin-bottom: 1rem;
             opacity: 0;
             animation: fadeInUp 1s ease forwards;
         }
 
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.2rem; /* Slightly reduced from 1.3rem */
             margin-bottom: 2rem;
             opacity: 0;
             animation: fadeInUp 1s ease 0.3s forwards;
@@ -376,8 +379,13 @@
                 display: none;
             }
 
+            .hero {
+                min-height: 50vh; /* Reduced for mobile */
+                padding: 100px 0 40px;
+            }
+
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem; /* Reduced from 2.5rem */
             }
 
             .hero p {
@@ -441,10 +449,10 @@
                 <h1>Thomas Wagner</h1>
                 <p>Software Developer & AI Specialist</p>
                 <div class="contact-info">
-                    <div class="contact-item">📱 (714) 406-7191</div>
-                    <div class="contact-item">✉️ tbwagnerdev@gmail.com</div>
-                    <div class="contact-item">🔗 LinkedIn</div>
-                    <div class="contact-item">📍 Anaheim, CA</div>
+                    <div class="contact-item"> (714) 406-7191</div>
+                    <div class="contact-item"> tbwagnerdev@gmail.com</div>
+                    <div class="contact-item"> LinkedIn</div>
+                    <div class="contact-item"> Anaheim, CA</div>
                 </div>
                 <a href="#experience" class="cta-button">View My Work</a>
             </div>
@@ -545,7 +553,7 @@
                             <div class="company">Christina & Kylie Interior Design</div>
                         </div>
                         <div class="date-location">
-                            <div>June 2024 – September 2024</div>
+                            <div>June 2024 - September 2024</div>
                             <div class="location">Remote</div>
                         </div>
                     </div>
@@ -564,7 +572,7 @@
                             <div class="company">Campitelli Cookies</div>
                         </div>
                         <div class="date-location">
-                            <div>June 2022 – January 2024 (Seasonal)</div>
+                            <div>June 2022 - January 2024 (Seasonal)</div>
                             <div class="location">Anaheim, CA</div>
                         </div>
                     </div>
@@ -609,19 +617,19 @@
                 <h2 class="section-title">Leadership & Volunteer Experience</h2>
                 <div class="leadership-item">
                     <div class="leadership-title">Youth Summer Camp Volunteering</div>
-                    <div class="leadership-org">Higher Ground Orange County | May 2024 – August 2024</div>
+                    <div class="leadership-org">Higher Ground Orange County | May 2024 - August 2024</div>
                 </div>
                 <div class="leadership-item">
                     <div class="leadership-title">Eagle Scout</div>
-                    <div class="leadership-org">Troop 850, Boy Scouts of America | August 2013 – March 2021</div>
+                    <div class="leadership-org">Troop 850, Boy Scouts of America | August 2013 - March 2021</div>
                 </div>
                 <div class="leadership-item">
                     <div class="leadership-title">Lead Programmer and Robot Designer</div>
-                    <div class="leadership-org">Team 363A, VEX Robotics | August 2013 – June 2020</div>
+                    <div class="leadership-org">Team 363A, VEX Robotics | August 2013 - June 2020</div>
                 </div>
                 <div class="leadership-item">
                     <div class="leadership-title">Cyber Patriot Competitor</div>
-                    <div class="leadership-org">Canyon High School, Air Force Association | August 2017 – June 2020</div>
+                    <div class="leadership-org">Canyon High School, Air Force Association | August 2017 - June 2020</div>
                 </div>
             </div>
         </section>
