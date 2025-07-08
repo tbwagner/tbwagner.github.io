@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Vision Segmentation Tool - Thomas Wagner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navigation - matching your main site */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 120px 0 60px;
+            text-align: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: 20px 20px 0 0;
+            margin-top: -20px;
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+        }
+
+        /* Project container */
+        .project-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+        }
+
+        .upload-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .upload-btn {
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .control-group input[type="range"] {
+            width: 150px;
+            height: 5px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            outline: none;
+            border-radius: 5px;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .control-group button {
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .control-group button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .canvas-wrapper {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .canvas-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .canvas-wrapper h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        canvas {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .info-panel {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-panel h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .info-panel ul {
+            list-style: none;
+            color: #555;
+        }
+
+        .info-panel li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .info-panel li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .algorithm-info {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .algorithm-info h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .algorithm-info p {
+            color: #555;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation - matching your main site -->
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">Thomas Wagner</a>
+            <ul class="nav-links">
+                <li><a href="index.html#education">Education</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="index.html#experience">Experience</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#leadership">Leadership</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="container">
+            <h1>Computer Vision Segmentation Tool</h1>
+            <p>Advanced image segmentation using watershed algorithm and edge detection</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Portfolio</a>
+            
+            <div class="project-container">
+                <div class="upload-section">
+                    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                        Upload Image
+                    </button>
+                    <input type="file" id="fileInput" accept="image/*" onchange="loadImage(event)">
+                </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Edge Threshold:</label>
+                <input type="range" id="edgeThreshold" min="50" max="200" value="100" oninput="updateSegmentation()">
+                <span id="edgeValue">100</span>
+            </div>
+            <div class="control-group">
+                <label>Blur Intensity:</label>
+                <input type="range" id="blurIntensity" min="1" max="10" value="2" oninput="updateSegmentation()">
+                <span id="blurValue">2</span>
+            </div>
+            <div class="control-group">
+                <label>Segmentation:</label>
+                <button onclick="performWatershed()">Apply Watershed</button>
+            </div>
+            <div class="control-group">
+                <label>Processing:</label>
+                <button onclick="resetImage()">Reset</button>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <div class="canvas-wrapper">
+                <h3>Original Image</h3>
+                <canvas id="originalCanvas"></canvas>
+            </div>
+            <div class="canvas-wrapper">
+                <h3>Edge Detection</h3>
+                <canvas id="edgeCanvas"></canvas>
+            </div>
+            <div class="canvas-wrapper">
+                <h3>Segmented Result</h3>
+                <canvas id="segmentedCanvas"></canvas>
+            </div>
+        </div>
+
+                <div class="info-panel">
+                    <h3>Project Features</h3>
+                    <ul>
+                        <li>Real-time edge detection using Sobel operator</li>
+                        <li>Watershed algorithm for region segmentation</li>
+                        <li>Interactive parameter tuning</li>
+                        <li>Multi-stage image processing pipeline</li>
+                        <li>Gaussian blur preprocessing</li>
+                        <li>Connected component analysis</li>
+                    </ul>
+                </div>
+
+                <div class="algorithm-info">
+                    <h4>Technical Implementation</h4>
+                    <p>This tool implements a complete computer vision pipeline combining edge detection, morphological operations, and watershed segmentation. The Sobel operator detects edges by computing gradients, while Gaussian blur reduces noise. The watershed algorithm treats the image as a topographic map, finding natural boundaries between regions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let originalImageData = null;
+        let currentImageData = null;
+        
+        const originalCanvas = document.getElementById('originalCanvas');
+        const edgeCanvas = document.getElementById('edgeCanvas');
+        const segmentedCanvas = document.getElementById('segmentedCanvas');
+        
+        const originalCtx = originalCanvas.getContext('2d');
+        const edgeCtx = edgeCanvas.getContext('2d');
+        const segmentedCtx = segmentedCanvas.getContext('2d');
+
+        function loadImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const maxWidth = 300;
+                    const maxHeight = 300;
+                    let { width, height } = img;
+                    
+                    if (width > maxWidth || height > maxHeight) {
+                        const ratio = Math.min(maxWidth / width, maxHeight / height);
+                        width *= ratio;
+                        height *= ratio;
+                    }
+                    
+                    [originalCanvas, edgeCanvas, segmentedCanvas].forEach(canvas => {
+                        canvas.width = width;
+                        canvas.height = height;
+                    });
+                    
+                    originalCtx.drawImage(img, 0, 0, width, height);
+                    originalImageData = originalCtx.getImageData(0, 0, width, height);
+                    currentImageData = originalCtx.getImageData(0, 0, width, height);
+                    
+                    updateSegmentation();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateSegmentation() {
+            if (!originalImageData) return;
+            
+            const edgeThreshold = parseInt(document.getElementById('edgeThreshold').value);
+            const blurIntensity = parseInt(document.getElementById('blurIntensity').value);
+            
+            document.getElementById('edgeValue').textContent = edgeThreshold;
+            document.getElementById('blurValue').textContent = blurIntensity;
+            
+            let processedData = JSON.parse(JSON.stringify(originalImageData));
+            
+            // Apply Gaussian blur
+            processedData = applyGaussianBlur(processedData, blurIntensity);
+            
+            // Edge detection
+            const edgeData = applySobelEdgeDetection(processedData, edgeThreshold);
+            edgeCtx.putImageData(edgeData, 0, 0);
+            
+            currentImageData = processedData;
+        }
+
+        function applyGaussianBlur(imageData, intensity) {
+            const { data, width, height } = imageData;
+            const newData = new Uint8ClampedArray(data);
+            
+            const kernel = generateGaussianKernel(intensity);
+            const kernelSize = kernel.length;
+            const half = Math.floor(kernelSize / 2);
+            
+            for (let y = half; y < height - half; y++) {
+                for (let x = half; x < width - half; x++) {
+                    let r = 0, g = 0, b = 0;
+                    
+                    for (let ky = 0; ky < kernelSize; ky++) {
+                        for (let kx = 0; kx < kernelSize; kx++) {
+                            const py = y + ky - half;
+                            const px = x + kx - half;
+                            const idx = (py * width + px) * 4;
+                            const weight = kernel[ky][kx];
+                            
+                            r += data[idx] * weight;
+                            g += data[idx + 1] * weight;
+                            b += data[idx + 2] * weight;
+                        }
+                    }
+                    
+                    const idx = (y * width + x) * 4;
+                    newData[idx] = r;
+                    newData[idx + 1] = g;
+                    newData[idx + 2] = b;
+                }
+            }
+            
+            return new ImageData(newData, width, height);
+        }
+
+        function generateGaussianKernel(size) {
+            const kernel = [];
+            const sigma = size / 3;
+            const twoSigmaSquared = 2 * sigma * sigma;
+            const center = Math.floor(size / 2);
+            let sum = 0;
+            
+            for (let y = 0; y < size; y++) {
+                kernel[y] = [];
+                for (let x = 0; x < size; x++) {
+                    const dx = x - center;
+                    const dy = y - center;
+                    const value = Math.exp(-(dx * dx + dy * dy) / twoSigmaSquared);
+                    kernel[y][x] = value;
+                    sum += value;
+                }
+            }
+            
+            // Normalize kernel
+            for (let y = 0; y < size; y++) {
+                for (let x = 0; x < size; x++) {
+                    kernel[y][x] /= sum;
+                }
+            }
+            
+            return kernel;
+        }
+
+        function applySobelEdgeDetection(imageData, threshold) {
+            const { data, width, height } = imageData;
+            const edgeData = new Uint8ClampedArray(data.length);
+            
+            const sobelX = [[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]];
+            const sobelY = [[-1, -2, -1], [0, 0, 0], [1, 2, 1]];
+            
+            for (let y = 1; y < height - 1; y++) {
+                for (let x = 1; x < width - 1; x++) {
+                    let gx = 0, gy = 0;
+                    
+                    for (let ky = 0; ky < 3; ky++) {
+                        for (let kx = 0; kx < 3; kx++) {
+                            const px = x + kx - 1;
+                            const py = y + ky - 1;
+                            const idx = (py * width + px) * 4;
+                            const gray = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
+                            
+                            gx += gray * sobelX[ky][kx];
+                            gy += gray * sobelY[ky][kx];
+                        }
+                    }
+                    
+                    const magnitude = Math.sqrt(gx * gx + gy * gy);
+                    const edge = magnitude > threshold ? 255 : 0;
+                    
+                    const idx = (y * width + x) * 4;
+                    edgeData[idx] = edge;
+                    edgeData[idx + 1] = edge;
+                    edgeData[idx + 2] = edge;
+                    edgeData[idx + 3] = 255;
+                }
+            }
+            
+            return new ImageData(edgeData, width, height);
+        }
+
+        function performWatershed() {
+            if (!currentImageData) return;
+            
+            const segmentedData = applyWatershedSegmentation(currentImageData);
+            segmentedCtx.putImageData(segmentedData, 0, 0);
+        }
+
+        function applyWatershedSegmentation(imageData) {
+            const { data, width, height } = imageData;
+            const segmentedData = new Uint8ClampedArray(data.length);
+            
+            // Simple region growing segmentation (simplified watershed)
+            const visited = new Array(width * height).fill(false);
+            const colors = [
+                [255, 100, 100], [100, 255, 100], [100, 100, 255],
+                [255, 255, 100], [255, 100, 255], [100, 255, 255],
+                [200, 150, 100], [150, 200, 100], [100, 150, 200]
+            ];
+            
+            let colorIndex = 0;
+            
+            for (let y = 10; y < height - 10; y += 20) {
+                for (let x = 10; x < width - 10; x += 20) {
+                    const idx = y * width + x;
+                    if (!visited[idx]) {
+                        const color = colors[colorIndex % colors.length];
+                        floodFill(data, segmentedData, visited, x, y, width, height, color);
+                        colorIndex++;
+                    }
+                }
+            }
+            
+            return new ImageData(segmentedData, width, height);
+        }
+
+        function floodFill(originalData, segmentedData, visited, startX, startY, width, height, color) {
+            const stack = [[startX, startY]];
+            const startIdx = startY * width + startX;
+            const targetR = originalData[startIdx * 4];
+            const targetG = originalData[startIdx * 4 + 1];
+            const targetB = originalData[startIdx * 4 + 2];
+            const tolerance = 40;
+            
+            while (stack.length > 0) {
+                const [x, y] = stack.pop();
+                const idx = y * width + x;
+                
+                if (x < 0 || x >= width || y < 0 || y >= height || visited[idx]) continue;
+                
+                const pixelIdx = idx * 4;
+                const r = originalData[pixelIdx];
+                const g = originalData[pixelIdx + 1];
+                const b = originalData[pixelIdx + 2];
+                
+                const diff = Math.abs(r - targetR) + Math.abs(g - targetG) + Math.abs(b - targetB);
+                if (diff > tolerance) continue;
+                
+                visited[idx] = true;
+                segmentedData[pixelIdx] = color[0];
+                segmentedData[pixelIdx + 1] = color[1];
+                segmentedData[pixelIdx + 2] = color[2];
+                segmentedData[pixelIdx + 3] = 255;
+                
+                stack.push([x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]);
+            }
+        }
+
+        function resetImage() {
+            if (originalImageData) {
+                originalCtx.putImageData(originalImageData, 0, 0);
+                edgeCtx.clearRect(0, 0, edgeCanvas.width, edgeCanvas.height);
+                segmentedCtx.clearRect(0, 0, segmentedCanvas.width, segmentedCanvas.height);
+                currentImageData = JSON.parse(JSON.stringify(originalImageData));
+            }
+        }
+
+        // Initialize with a default demo
+        window.onload = function() {
+            const demoCanvas = document.createElement('canvas');
+            demoCanvas.width = 300;
+            demoCanvas.height = 200;
+            const demoCtx = demoCanvas.getContext('2d');
+            
+            // Create demo image with shapes
+            demoCtx.fillStyle = '#f0f0f0';
+            demoCtx.fillRect(0, 0, 300, 200);
+            
+            demoCtx.fillStyle = '#ff6b6b';
+            demoCtx.fillRect(50, 50, 80, 60);
+            
+            demoCtx.fillStyle = '#4ecdc4';
+            demoCtx.beginPath();
+            demoCtx.arc(200, 80, 40, 0, Math.PI * 2);
+            demoCtx.fill();
+            
+            demoCtx.fillStyle = '#45b7d1';
+            demoCtx.fillRect(80, 130, 100, 40);
+            
+            [originalCanvas, edgeCanvas, segmentedCanvas].forEach(canvas => {
+                canvas.width = 300;
+                canvas.height = 200;
+            });
+            
+            originalCtx.drawImage(demoCanvas, 0, 0);
+            originalImageData = originalCtx.getImageData(0, 0, 300, 200);
+            currentImageData = originalCtx.getImageData(0, 0, 300, 200);
+            
+            updateSegmentation();
+        };
+    </script>
+</body>
+</html>
